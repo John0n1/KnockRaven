@@ -1,0 +1,19 @@
+[package]
+name = "knockraven"
+version = "0.1.0"
+edition = "2021"
+authors = ["John Hauger Mitander <https://github.com/John0n1>"]
+description = "Knockraven is a multi‑protocol port‑knocking sequence discovery tool designed for authorized security assessments. It attempts to uncover hidden services protected by port knocking sequences by sending configurable sequences of TCP or UDP connection attempts and monitoring whether hidden services are exposed. Use responsibly."
+license = "MIT"
+readme = "README.md"
+keywords = ["security", "port knocking", "network", "offsec"]
+categories = ["command-line-utilities", "network-programming"]
+build = "build.rs"
+
+[dependencies]
+clap = { version = "4.5.1", features = ["derive"] }
+tokio = { version = "1.35.0", features = ["net", "rt-multi-thread", "time"] }
+thiserror = "1.0"
+
+[build-dependencies]
+cc = "1.0"
