@@ -1,0 +1,65 @@
+.TH KNOCKRAVEN 1 "07 Nov 2025" "Knockraven 0.1.0" "User Commands"
+.SH NAME
+knockraven \- multi‑protocol port‑knocking discovery tool
+.SH SYNOPSIS
+.B knockraven
+\fIHOST PORT [PORT …]\fR [\fIOPTIONS\fR]
+.SH DESCRIPTION
+\fBKnockraven\fR is a command‑line utility that brute forces port‑knocking
+sequences in order to discover services that are hidden behind firewall
+rules.  Port‑knocking is a technique where a server listens for a specific
+sequence of connection attempts to closed ports; when the correct pattern
+is observed, the server temporarily opens a hidden service port for the
+client.  Knockraven generates and sends every combination of a given set
+of candidate ports using TCP, UDP or a mixture of both protocols and then
+checks whether the target service becomes reachable.
+
+Only use this tool on systems you own or on which you have explicit
+permission to perform security testing.
+.SH OPTIONS
+The mandatory positional arguments specify the \fBHOST\fR to test and one
+or more \fBPORT\fR values which form the pool from which sequences are
+generated.  A number of command‑line options control the behaviour of
+Knockraven:
+.TP
+\fB\-l,\ --length\fR \fIN\fR
+Length of the knock sequence to test (default: 3).  With \fIN\fR ports
+provided the total number of sequences is \fIN\fR\s-2^length\s+2.
+.TP
+\fB\-p,\ --protocol\fR \fIMODE\fR
+Protocol to use for the knocks.  \fBtcp\fR sends TCP SYN packets,
+\fBudp\fR sends empty UDP datagrams and \fBmixed\fR enumerates all
+combinations of TCP and UDP for each position in the sequence.
+.TP
+\fB\-m,\ --monitor\fR \fIPORT\fR
+Port to check after each sequence to determine whether the service has been
+opened (default: 22).
+.TP
+\fB\-d,\ --delay\fR \fIMS\fR
+Delay between knocks in milliseconds (default: 200).  Some knock daemons
+require a pause between connection attempts.
+.TP
+\fB\-t,\ --timeout\fR \fIMS\fR
+Timeout for each connection attempt in milliseconds (default: 1000).
+.TP
+\fB\-c,\ --concurrency\fR \fIN\fR
+Number of sequences to send concurrently (default: 10).  Higher values
+speed up scanning but may overwhelm the target or your network stack.
+.TP
+\fB\-v,\ --verbose\fR
+Increase output verbosity.  Repeat the flag to enable additional detail.
+.TP
+\fB\-h,\ --help\fR
+Display usage information.
+.SH EXAMPLES
+To test all three‑port combinations of ports 1111, 2222 and 3333 on
+host 192.0.2.10 using TCP knocks while monitoring port 22:
+.PP
+\fB\fCknockraven 192.0.2.10 1111 2222 3333 \-l 3 \-p tcp \-m 22\fR\fR
+.SH AUTHORS
+Knockraven was written by John Hauger Mitander.  This manual page was
+adapted for the Debian package.
+.SH COPYRIGHT
+Copyright \(co 2025 John Hauger Mitander.  This is free software;
+see the source for copying conditions.  There is NO warranty; not
+even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
