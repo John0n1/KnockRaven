@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Knockraven
+Comment=Multi‑protocol port‑knocking discovery tool
+Exec=knockraven --help
+Icon=knockraven
+Terminal=true
+Type=Application
+Categories=Network;Security;Utility;

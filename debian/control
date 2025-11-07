@@ -1,0 +1,20 @@
+Source: knockraven
+Section: utils
+Priority: optional
+Maintainer: John Hauger Mitander <john@on1.no>
+# Use debhelper compatibility level 13 which is current in Debian stable.
+Build-Depends: debhelper-compat (= 13), cargo, rustc, gcc, pkg-config
+Standards-Version: 4.6.2
+Homepage: https://github.com/John0n1/knockraven
+Rules-Requires-Root: no
+
+Package: knockraven
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: multi-protocol port-knocking discovery tool
+ Knockraven brute forces port‑knocking sequences to find hidden services.
+ This command‑line utility can test arbitrary TCP, UDP or mixed sequences
+ against a host and monitor a port to see if the hidden service becomes
+ available.  It is designed for security auditors and penetration testers
+ who need to verify whether port‑knocking is deployed on a network.  Only
+ use it with permission from the system owner.

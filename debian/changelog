@@ -1,0 +1,9 @@
+knockraven (0.1.0-1) unstable; urgency=medium
+
+  * Initial release of Knockraven as a Debian package.
+    - Package includes compiled binary, manual page, desktop entry
+      and high-resolution icon.
+    - Added Debian packaging files and updated Makefile to build
+      .deb packages via `make deb`.
+
+ -- John Hauger Mitander <john@on1.no>  Fri, 07 Nov 2025 00:00:00 +0000

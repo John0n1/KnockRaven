@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+# Minimal debhelper rules file for Knockraven
+
+%:
+	dh $@ --buildsystem=generic
+
+# Compile the Rust project in release mode.  We use the generic
+# buildsystem so that debhelper does not try to run its own auto
+# configuration logic.  The compiled binary will be produced under
+# target/release/knockraven.
+override_dh_auto_build:
+	cargo build --release
+
+# Install the compiled binary, the desktop file, the icon and the
+# manpage into the staging directory.  We compress the manpage
+# ourselves so that dh_installman does not complain.
+override_dh_auto_install:
+	mkdir -p debian/knockraven/usr/bin
+	install -m 0755 target/release/knockraven debian/knockraven/usr/bin/knockraven
+
+	# Install the desktop entry and icon
+	mkdir -p debian/knockraven/usr/share/applications
+	mkdir -p debian/knockraven/usr/share/icons/hicolor/512x512/apps
+	install -m 0644 debian/knockraven.desktop debian/knockraven/usr/share/applications/knockraven.desktop
+	install -m 0644 debian/knockraven.png debian/knockraven/usr/share/icons/hicolor/512x512/apps/knockraven.png
+
+	# Install and compress the man page
+	mkdir -p debian/knockraven/usr/share/man/man1
+	install -m 0644 docs/knockraven.1 debian/knockraven/usr/share/man/man1/knockraven.1
+	gzip --force -9 debian/knockraven/usr/share/man/man1/knockraven.1
