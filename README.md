@@ -10,36 +10,12 @@
 [![Language](https://img.shields.io/badge/language-Rust%20%2B%20C-blueviolet)](#)
 
 ## Overview
+- Port knocking conceals services by necessitating a sequence of connection attempts to closed ports, which then opens the firewall and makes the ports undetectable to standard scanners.
+- Adversaries utilize this technique for persistence and command and control.
+- Knockraven is a tool designed to discover these hidden services by systematically generating and testing knock sequences, reporting any sequence that successfully opens a monitored port.
 
-**Knockraven** is a research‑oriented command‑line utility that attempts to
-discover services protected by port‑knocking schemes.  In a typical
-configuration, a host will refuse all incoming connections until it receives a
-specific sequence of connection attempts to closed ports; once the correct
-sequence is seen, the firewall temporarily opens a hidden service port.
-Port‑knocking offers a form of *security through obscurity* by concealing
-services from casual scans【29475989647708†L112-L121】.  Adversaries have been observed
-using port‑knocking to hide command‑and‑control listeners and persist on
-compromised systems【804619713130562†L56-L64】.  Conversely, defenders and penetration
-testers need tools to enumerate these sequences because a port protected by a
-competently implemented knock is “nearly impossible to discover using active
-probes such as those sent by Nmap”【688072229527641†L141-L145】.
+<img width="1122" height="2187" alt="table_20251108_000024" src="https://github.com/user-attachments/assets/0037f417-c66b-4afd-a866-2dce67c2161f" />
 
-Knockraven fills this gap.  It brute forces sequences of TCP or UDP connection
-attempts, monitors for a subsequent service opening and reports any
-combinations that work.  The engine supports:
-
-* **Multi‑protocol knocking.** You can choose TCP or UDP knocks for the entire
-  sequence.  Mixed mode is also supported, in which Knockraven tests every
-  combination of TCP and UDP for each position in the sequence.
-* **Configurable sequence length.** Real‑world port‑knocking schemes commonly
-  use three‑ or four‑stage sequences【29475989647708†L112-L121】, but Knockraven lets you
-  try arbitrary lengths.
-* **Concurrent scanning.** An asynchronous backend dispatches multiple
-  sequences in parallel to accelerate discovery.
-* **Modular architecture.** The core sequence generator is written in C and
-  exposed to Rust via a small FFI wrapper.  The scanning engine is built in
-  Rust with Tokio for efficient concurrency.  Shell scripts and Makefiles
-  simplify integration and packaging.
 
 > **Important:** This tool is provided for educational and authorized
 > security research.  Use it only against systems you own or have explicit
@@ -47,8 +23,7 @@ combinations that work.  The engine supports:
 
 ## Building
 
-Knockraven requires a recent Rust toolchain (edition 2021) and a C compiler.
-On Debian or Ubuntu based distributions you can install the prerequisites with:
+Knockraven requires a recent Rust toolchain (edition 2021) and a C compiler. On Debian or Ubuntu based distributions you can install the prerequisites with:
 
 ```sh
 sudo apt update && sudo apt install -y build-essential curl
@@ -56,13 +31,10 @@ curl https://sh.rustup.rs -sSf | sh
 source $HOME/.cargo/env
 ```
 
-Clone the repository and build the project using Cargo (the Rust package
-manager).  If you are on a Debian‑based distribution you can instead
-use the provided packaging metadata to build a proper `.deb` package via
-`make deb` as described below.
+Clone the repository and build the project using Cargo (the Rust package manager).  If you are on a Debian‑based distribution you can instead use the provided packaging metadata to build a proper `.deb` package via `make deb` as described below.
 
 ```sh
-git clone https://example.com/knockraven.git
+git clone https://github.com/John0n1/KnockRaven.git
 cd knockraven
 cargo build --release
 ```
@@ -167,7 +139,7 @@ Run `./knockraven --help` to see the full usage information.
 
 Port‑knocking was designed to hide services from port scanners and casual
 attackers.  Nmap’s own documentation notes that a service protected by port
-knocking is “nearly impossible to discover using active probes”【688072229527641†L141-L145】.
+knocking is “nearly impossible to discover using active probes.
 Knockraven takes advantage of this weakness: instead of guessing which
 service might be listening on which port, it focuses on uncovering the
 sequence that unlocks the service.  By iterating through all possible
@@ -178,10 +150,8 @@ networks for misconfigured or forgotten port‑knocking setups.
 
 The tool also acknowledges the caveats around port‑knocking:
 implementations can be fragile and susceptible to replay or brute force
-attacks【688072229527641†L136-L139】, they should not replace proper
-authentication【29475989647708†L123-L127】, and port‑knocking itself can be used
-maliciously【804619713130562†L56-L64】.  Knockraven is therefore intended for
-controlled testing and not as an endorsement of port‑knocking as a
+attacks, they should not replace proper authentication, and port‑knocking itself can be used
+maliciously.  Knockraven is therefore intended for controlled testing and not as an endorsement of port‑knocking as a
 security measure.
 
 ## File Layout
